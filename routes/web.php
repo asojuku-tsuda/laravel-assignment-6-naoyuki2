@@ -1,15 +1,16 @@
     <?php
 
     use Illuminate\Support\Facades\Route;
+    use Illuminate\Http\Request;
     use App\Models\Clothes;
 
     // メインページのルート - 全件取得、一件取得、ID指定取得を表示
     Route::get('/', function () {
         // TODO: 全件取得
-        $allClothes = [];
+        $allClothes = Clothes::all();
 
         // 最初の1件取得
-        $firstClothes = [];
+        $firstClothes = Clothes::first();
 
         // デフォルトのID指定 (検索前は空にしておく)
         $clothesById = null;
@@ -19,12 +20,13 @@
     });
 
     // ID検索用のルート
-    Route::get('/search', function () {
+    Route::get('/search', function (Request $request) {
+        $searchId = $request->input('id');
         // TODO: 全件取得
-        $allClothes  = [];
+        $allClothes  = Clothes::all();
 
         // TODO: 最初の1件取得
-        $firstClothes = [];
+        $firstClothes = Clothes::first();
 
         // ID指定取得
         $searchId = request('id');
@@ -33,7 +35,7 @@
         if ($searchId) {
             try {
                 // TODO:IDで検索したデータを取得
-                $clothesById = [];
+                $clothesById = Clothes::find($searchId);
             } catch (\Exception $e) {
                 // 見つからない場合は null のまま
             }
